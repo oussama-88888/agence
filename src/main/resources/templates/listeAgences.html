@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+
+
+
+ <div th:replace="fragments/nav :: nav">
+ </div>
+  
+<div class="container">
+</hr>
+<div class="text-right">
+	   <a href="/ajoutAgence" class="btn btn-success">Ajout Agence</a>
+	</hr>
+</div>
+  <h3>Table Agences</h3>
+<table id="table_id" class="table table-striped">
+  <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom Agence</th>
+        <th>contact</th>
+        <th>dateCreation</th>
+        <th scope="col">#Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    
+    
+     
+     <tr  th:each="l : ${agences}">
+      <th scope="row" th:text="${l.id}"></th>
+      <td th:text="${l.nomAgence}"></td>
+      <td th:text="${l.contact}"></td>
+      <td th:text="${l.dateCreation}"></td>
+     
+      <td> <a th:href="@{modifierAgence(id=${l.id})}" class="btn btn-primary">Modifier</a>  
+ 		  <button type="button" class="btn btn-danger" data-toggle="modal" 
+       th:attr="data-target='#myModal'+*{l.id}">Supprimer</button> 
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="*{'myModal'+{l.id}}"role="dialog">
+                  <div class="modal-dialog">
+                  
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Avertissement !!</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Cet élément sera définitivement supprimé. </p>
+                      </div>
+                      <div class="modal-footer">
+                        <form action="/deleteAgence">  
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        
+                          <input type="hidden" name="id" th:value="${l.id}" />
+                        
+                        <input type="submit" class="btn btn-danger" value="Confirmer" />
+														
+													</form>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                <!-- Modal -->
+
+      </td>
+
+
+    </tr>
+    
+   
+    
+    
+    
+    
+    
+    
+   					
+						  
+						  
+    
+  </tbody>
+</table>
+</div>
+
+
+<script>
+		$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+	</script>
+	
+	
+
+</body>
+</html>

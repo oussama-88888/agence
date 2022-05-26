@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+
+
+
+ <div th:replace="fragments/nav :: nav">
+ </div>
+  
+<div class="container">
+</hr>
+<div class="text-right">
+	   <a href="/ajoutServ" class="btn btn-success">Ajout Service</a>
+	</hr>
+</div>
+  <h3>Table Services</h3>
+<table id="table_id" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#ID</th>
+      <th scope="col">description</th>
+      <th scope="col">dateExpiration</th>
+      <th scope="col">prixService</th>
+      <th scope="col">agence</th>
+      <th scope="col">#Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    
+    
+     
+     <tr  th:each="s : ${services}">
+      <th scope="row" th:text="${s.id}"></th>
+      <td th:text="${s.description}"></td>
+      <td th:text="${s.dateExpiration}"></td>
+      <td th:text="${s.prixService}"></td>
+      <td th:text="${s.agence.nomAgence}">  </td>
+      <td> <a th:href="@{modifierServ(id=${s.id})}" class="btn btn-primary">Modifier</a>  
+ 		  <button type="button" class="btn btn-danger" data-toggle="modal" 
+       th:attr="data-target='#myModal'+*{s.id}">Supprimer</button> 
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="*{'myModal'+{s.id}}"role="dialog">
+                  <div class="modal-dialog">
+                  
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Avertissement !!</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Cet élément sera définitivement supprimé. </p>
+                      </div>
+                      <div class="modal-footer">
+                        <form action="/deleteServ">  
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        
+                          <input type="hidden" name="id" th:value="${s.id}" />
+                        
+                        <input type="submit" class="btn btn-danger" value="Confirmer" />
+														
+													</form>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                <!-- Modal -->
+
+      </td>
+
+
+    </tr>
+    
+   
+    
+    
+    
+    
+    
+    
+   					
+						  
+						  
+    
+  </tbody>
+</table>
+</div>
+
+
+<script>
+		$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+	</script>
+	
+	
+
+</body>
+</html>
